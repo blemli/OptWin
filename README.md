@@ -14,9 +14,9 @@ There are different Presets and you can create your own. The *Minimalist* Preset
 
 
 
-## Unattended
+## Unattended Installation
 
-If you have something better to do while your OS is installed you can use the [Ventoy Autorun Plugin](https://www.ventoy.net/en/doc_inject_autorun.html) to automatically run Optimize-Windows after an unattended Windows Installation.
+If you have something better to do while your OS is installed you can use the [Ventoy Autorun Plugin](https://www.ventoy.net/en/doc_inject_autorun.html) to automatically run *Optimize-Windows* after an unattended Windows Installation.
 
 Put the [inject_optwin.7z](./inject_optwin.7z) into the *ventoy* folder on your usb-drive. Then insert the following into your ventoy.json:
 
@@ -35,19 +35,25 @@ Put the [inject_optwin.7z](./inject_optwin.7z) into the *ventoy* folder on your 
 ]
 ```
 
-adjust the image-paths to fit your image.
+make sure those paths are correct.
 
 
 
-## Update
+## Contribute
 
-You can update the Module with `Update-Module -Name OptWin`
+Contributions, Pull Requests or Issues,  are <u>very welcome</u> :heart:. If you use VSCode, you should install the recommended Extensions.
+
+<img src="assets/2023-10-24_16-15-51.png" alt="2023-10-24_16-15-51" style="zoom: 50%;" />
 
 ## Publish
+
+If you merge or push into the main branch, the module will get published automatically.
+
+### or manually
 
 You will need a PSGallery API-Key with the correct Permissions.
 
 1. `$Key=(op item get "Powershell Gallery OptWin" --fields credential)`
 2. `Publish-Module -Path . -NuGetApiKey $Key -Repository PSGallery`
-3. Verify: `Install-Module -Name MyModule` then `Optimize-Windows -Preset Harmless -Whatif`
+3. Verify: `Install-Module -Name MyModule` then `Optimize-Windows -Preset Harmless -WhatIf`
 4. Remove Key: `Remove-Variable Key`

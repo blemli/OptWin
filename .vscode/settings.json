@@ -18,5 +18,10 @@
         "titleBar.inactiveBackground": "#0d89a599",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#0D89A5"
+    "peacock.color": "#0D89A5",
+    "cSpell.words": [
+        "Autorun",
+        "optwin",
+        "ventoy"
+    ]
 }

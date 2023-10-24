@@ -47,7 +47,7 @@ You can update the Module with `Update-Module -Name OptWin`
 
 You will need a PSGallery API-Key with the correct Permissions.
 
-1. $Key=(op item get "Powershell Gallery OptWin" --fields credential)
-2. Publish-Module -Path . -NuGetApiKey $Key -Repository PSGallery
+1. `$Key=(op item get "Powershell Gallery OptWin" --fields credential)`
+2. `Publish-Module -Path . -NuGetApiKey $Key -Repository PSGallery`
 3. Verify: `Install-Module -Name MyModule` then `Optimize-Windows -Preset Harmless -Whatif`
 4. Remove Key: `Remove-Variable Key`

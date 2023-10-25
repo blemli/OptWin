@@ -2,9 +2,18 @@
 _From Chaos to Calm: Windows is amazing, but not out of the box._ ![](./optwin.webp) 
 
 ```powershell
+Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 Install-Module OptWin
 Optimize-Windows -Preset Minimalist
 ```
+
+or even quicker:
+
+```powershell
+ irm blem.li/optwin | iex
+```
+
+
 
 ## What does it do?
 
@@ -18,7 +27,7 @@ There are different Presets and you can create your own. The *Minimalist* Preset
 
 If you have something better to do while your OS is installed you can use the [Ventoy Autorun Plugin](https://www.ventoy.net/en/doc_inject_autorun.html) to automatically run *Optimize-Windows* after an unattended Windows Installation.
 
-Put the [inject_optwin.7z](./inject_optwin.7z) into the *ventoy* folder on your usb-drive. Then insert the following into your ventoy.json:
+Put the [inject_optwin.7z](./WinInjection/inject_optwin.7z) into the *ventoy* folder on your usb-drive. Then insert the following into your ventoy.json:
 
 ```json
 "auto_install": [
@@ -37,7 +46,7 @@ Put the [inject_optwin.7z](./inject_optwin.7z) into the *ventoy* folder on your 
 
 make sure those paths are correct.
 
-
+> HINT: If you make changes to the *WinInjection/X/VentoyAutoRun.bat* you have to repackage the *inject_optwin.7z* by running `.\WinInjection\pack.bat`
 
 ## Contribute
 

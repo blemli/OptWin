@@ -27,7 +27,7 @@ There are different Presets and you can create your own. The *Minimalist* Preset
 
 If you have something better to do while your OS is installed you can use the [Ventoy Autorun Plugin](https://www.ventoy.net/en/doc_inject_autorun.html) to automatically run *Optimize-Windows* after an unattended Windows Installation.
 
-Put the [inject_optwin.7z](./WinInjection/inject_optwin.7z) into the *ventoy* folder on your usb-drive. Then insert the following into your ventoy.json:
+Put the [inject_optwin.7z](./WinInjection/output/inject_optwin.7z) into the *ventoy* folder on your usb-drive. Then insert the following into your ventoy.json:
 
 ```json
 "auto_install": [

@@ -362,6 +362,18 @@ Function Install-7zip {
     choco install 7zip
 }
 
+function Install-Sudo{
+    <#
+    .SYNOPSIS
+    Install Sudo BECAUSE it is useful to elevate stuff on the fly
+    #>
+
+    choco install gsudo
+
+    Write-Output "`nImport-Module 'gsudoModule'"| Add-Content $Profile
+    gsudo config CacheMode Auto
+}
+
 Function Install-OpenShell {
     <#
     .SYNOPSIS

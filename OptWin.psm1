@@ -5,11 +5,11 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;
 . (join-Path $PSScriptRoot "helpers.ps1")
 
 
+<#
+.SYNOPSIS
+Install VLC BECAUSE it can play anything
+#>
 Function Install-VLC {
-    <#
-    .SYNOPSIS
-    Install VLC BECAUSE it can play anything
-    #>
     choco install vlc
     new-item -ItemType Directory -Path $env:appdata\vlc
     Copy-Item -Path $PSScriptRoot\assets\vlc\vlcrc -Destination $env:APPDATA\vlc\vlcrc -force
@@ -17,11 +17,11 @@ Function Install-VLC {
     remove-item -path "$env:public\Desktop\VLC media player.lnk"
 }
 
+<#
+.SYNOPSIS
+Install I don't care about cookies BECAUSE we don't care about them
+#>
 Function Install-IDontCareAboutCookies {
-    <#
-    .SYNOPSIS
-    Install I don't care about cookies BECAUSE we don't care about them
-    #>
     #todo: make for other browsers
     if ([Environment]::Is64BitOperatingSystem) {
         $Path = "HKLM:\Software\Wow6432Node\Google\Chrome\Extensions\fihnjjcciajhdojfnbdddfaoknhalnja"
@@ -34,11 +34,11 @@ Function Install-IDontCareAboutCookies {
     # you need to enable it manually on chrome!
 }
 
+<# 
+.SYNOPSIS
+Install Ublock Origin BECAUSE adds are distracting
+#>
 Function Install-UblockOrigin {
-    <# 
-    .SYNOPSIS
-    Install Ublock Origin BECAUSE adds are distracting
-    #>
     #todo: other browsers
     if ([Environment]::Is64BitOperatingSystem) {
         $Path = "HKLM:\Software\Wow6432Node\Google\Chrome\Extensions\cjpalhdlnbpafiamejdnhcphjbkeiagm"
@@ -51,20 +51,20 @@ Function Install-UblockOrigin {
     # you need to enable it manually
 }
 
+<# 
+.SYNOPSIS
+Disable Chrome Password manager BECAUSE we save them in a better place
+#>
 Function Disable-ChromePasswordManager {
-    <# 
-    .SYNOPSIS
-    Disable Chrome Password manager BECAUSE we save them in a better place
-    #>
     $RegPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
     New-ItemProperty -Path $RegPath -Name PasswordManagerEnabled -Value 0 -PropertyType DWord -Force
 }
 
+<#
+.SYNOPSIS
+Uninstall Bloatware BECAUSE we never asked for this
+#>
 Function Uninstall-Bloat {
-    <#
-    .SYNOPSIS
-    Uninstall Bloatware BECAUSE we never asked for this
-    #>
     # UninstallMsftBloat #TODO: leave paint and calculator
     Get-AppxPackage -AllUsers "Microsoft.SkypeApp" | Remove-AppxPackage -AllUsers
     Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
@@ -78,11 +78,11 @@ Function Uninstall-Bloat {
     Uninstall-Program "Acer Jumpstart"
 }
 
+<#
+.SYNOPSIS
+Install Microsoft Office BECAUSE it is useful
+#>
 Function Install-Office {
-    <#
-    .SYNOPSIS
-    Install Microsoft Office BECAUSE it is useful
-    #>
     #choco install office365business
     push-location (Join-Path $PSScriptRoot "\assets\office\")
     ./setup.exe /configure $PSScriptRoot\assets\office\vogelsang.xml
@@ -101,11 +101,11 @@ Function Install-Office {
     Add-ActiveSetupComponent -DisplayName "Disable Office LinkedIn" -Id "DisableOfficeLinkedIn" -Script 'New-ItemProperty -Path "HKCU:\Software\Microsoft\Office\16.0\Common\LinkedIn" -Name "OfficeLinkedIn" -PropertyType DWORD -Value 0 -Force'
 }
 
+<#
+.SYNOPSIS
+Install Google Chrome BECAUSE it is a good browser
+#>
 Function Install-GoogleChrome {
-    <#
-    .SYNOPSIS
-    Install Google Chrome BECAUSE it is a good browser
-    #>
     choco install googlechrome --ignore-checksums
     New-Item -Path "HKLM:\SOFTWARE\Policies\Google"
     New-Item -Path "HKLM:\SOFTWARE\Policies\Google\Chrome"
@@ -118,11 +118,11 @@ Function Install-GoogleChrome {
     #TODO: privacy
 }
 
+<#
+.SYNOPSIS
+Install Firefox BECAUSE it is a free and open browser
+#>
 Function Install-Firefox {
-    <#
-    .SYNOPSIS
-    Install Firefox BECAUSE it is a free and open browser
-    #>
     choco install firefox
     refreshenv
     Remove-Item -Path (Join-Path "$env:public" "Desktop/Firefox.lnk")
@@ -130,43 +130,43 @@ Function Install-Firefox {
     firefox.exe -setdefaultbrowser -silent
 }
 
+<#
+.SYNOPSIS
+Disable Wifi BECAUSE the Computer is wired
+#>
 Function Disable-Wireless {
-    <#
-    .SYNOPSIS
-    Disable Wifi BECAUSE the Computer is wired
-    #>
     Get-NetAdapter WLAN | Disable-NetAdapter -confirm:$false
 }
 
+<#
+.SYNOPSIS
+Enable Wifi BECAUSE we need it
+#>
 Function Enable-Wireless {
-    <#
-    .SYNOPSIS
-    Enable Wifi BECAUSE we need it
-    #>
     Get-NetAdapter WLAN | Enable-NetAdapter -confirm:$false
 }
 
+<#
+.SYNOPSIS
+Disable Bluetooth BECAUSE if we don't need it it's more secure disabled
+#>
 Function Disable-Bluetooth {
-    <#
-    .SYNOPSIS
-    Disable Bluetooth BECAUSE if we don't need it it's more secure disabled
-    #>
     Get-PnpDevice | Where-Object { $_.Name -like "*Bluetooth*" } | Disable-PnpDevice -confirm:$false
 }
 
+<#
+.SYNOPSIS
+enable Bluetooth BECAUSE it is useful
+#>
 Function Enable-Bluetooth {
-    <#
-    .SYNOPSIS
-    enable Bluetooth BECAUSE it is useful
-    #>
     Get-PnpDevice | Where-Object { $_.Name -like "*Bluetooth*" } | Enable-PnpDevice -confirm:$false
 }
 
+<#
+.SYNOPSIS
+Install DeepFreeze BECAUSE users should not be able to change anything
+#>
 Function Install-DeepFreeze {
-    <#
-    .SYNOPSIS
-    Install DeepFreeze BECAUSE users should not be able to change anything
-    #>
     param(
     [Parameter(Mandatory = $true)]
     [String]$DeepFreezePassword
@@ -180,10 +180,10 @@ Function Install-DeepFreeze {
     #TODO: manually: add license
 }
 
+<#
+Remove Edge BECAUSE it is to distracting and always changes
+#>
 Function Disable-Edge {
-    <#
-    Remove Edge BECAUSE it is to distracting and always changes
-    #>
     DisableEdgeShortcutCreation
     remove-item -path "C:\Users\Public\Desktop\Microsoft Edge.lnk"
     choco install msedgeredirect
@@ -192,22 +192,22 @@ Function Disable-Edge {
     Remove-TaskbarPin -AppName "Microsoft Edge" #maybe: does this work?
 }
 
+<#
+.SYNOPSIS
+Applies a specified wallpaper to the current user's desktop
+
+.PARAMETER Image
+Provide the exact path to the image
+
+.PARAMETER Style
+Provide wallpaper style (Example: Fill, Fit, Stretch, Tile, Center, or Span)
+
+.EXAMPLE
+Set-WallPaper -Image "C:\Wallpaper\Default.jpg"
+Set-WallPaper -Image "C:\Wallpaper\Background.jpg" -Style Fit
+
+#>
 Function Set-WallPaper {
-    <#
-    .SYNOPSIS
-    Applies a specified wallpaper to the current user's desktop
-    
-    .PARAMETER Image
-    Provide the exact path to the image
-    
-    .PARAMETER Style
-    Provide wallpaper style (Example: Fill, Fit, Stretch, Tile, Center, or Span)
-    
-    .EXAMPLE
-    Set-WallPaper -Image "C:\Wallpaper\Default.jpg"
-    Set-WallPaper -Image "C:\Wallpaper\Background.jpg" -Style Fit
-    
-    #>
     
     param (
     [parameter(Mandatory = $True)]
@@ -268,32 +268,32 @@ Function Set-WallPaper {
     $ret = [Params]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $ImagePath, $fWinIni)
 }
 
+<#
+.SYNOPSIS
+Disable Printer Installation BECAUSE users shouldn't install printers
+#>
 Function Disable-PrinterInstallation {
-    <#
-    .SYNOPSIS
-    Disable Printer Installation BECAUSE users shouldn't install printers
-    #>
     #todo: does this work?
     New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name NoAddPrinter -Value 1 -Type DWORD
 }
 
+<#
+.SYNOPSIS
+Disable Windows Update BECAUSE the computer is frozen anyways
+.DESCRIPTION
+Disable Windows Update BECAUSE the computer is frozen anyways
+Only do this if you know what you are doing
+#>
 Function Disable-WindowsUpdate {
-    <#
-    .SYNOPSIS
-    Disable Windows Update BECAUSE the computer is frozen anyways
-    .DESCRIPTION
-    Disable Windows Update BECAUSE the computer is frozen anyways
-    Only do this if you know what you are doing
-    #>
     get-service -DisplayName "Windows Update" | Stop-Service -Force
     get-service -DisplayName "Windows Update" | Set-Service -StartupType "Disabled"
 }
 
+<#
+.SYNOPSIS
+Create a Unsecure User BECAUSE we need a user without password for autologin
+#>
 Function New-UnsecureUser() {
-    <#
-    .SYNOPSIS
-    Create a Unsecure User BECAUSE we need a user without password for autologin
-    #>
     param(
     [Parameter(Mandatory = $true)]
     [String]$Name
@@ -306,10 +306,10 @@ Function New-UnsecureUser() {
     new-Item -type Directory -path $userdir #Todo only if not exists
 }
 
-Function Enable-Autologin {
-    <#
-    .SYNOPSIS Enble Autologin BECAUSE it is more convenient
-    #>    
+<#
+.SYNOPSIS Enble Autologin BECAUSE it is more convenient
+#>   
+Function Enable-Autologin { 
     param(
     [Parameter(Mandatory = $true)]
     [String]$username
@@ -323,30 +323,29 @@ Function Enable-Autologin {
     Set-ItemProperty -Path $RegistryPath 'DefaultPassword' -Value "" -type String
 }
 
+<#
+.SYNOPSIS
+Set Acrobat as default PDF Reader BECAUSE it is better than edge
+#>
 Function Set-DefaultPDFReader {
-    <#
-    .SYNOPSIS
-    Set Acrobat as default PDF Reader BECAUSE it is better than edge
-    #>
     #TODO: doesn't work
     $RegistryPath = 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.pdf\UserChoice'
     New-ItemProperty -Path $RegistryPath -Name Progid -Value "Applications\Acrobat.exe" -Type String -Force
 }
 
+<#
+.SYNOPSIS Disable Privacy Experience BECAUSE it asks to many questions on first login
+#>
 Function Disable-PrivacyExperience {
-    <#
-    .SYNOPSIS Disable Privacy Experience BECAUSE it asks to many questions on first login
-    #>
     $RegistryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE"
     New-Item $RegistryPath
-    New-ItemProperty -Path $RegistryPath -Name 
-     -Value 1 -Type DWORD -Force
+    New-ItemProperty -Path $RegistryPath -Name -Value 1 -Type DWORD -Force
 }
 
+<#
+.SYNOPSIS Disable Feed BECAUSE it is distracting
+#>
 Function Disable-Feed {
-    <#
-    .SYNOPSIS Disable Feed BECAUSE it is distracting
-    #>
     $RegistryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     New-Item $RegistryPath
     New-ItemProperty -Path $RegistryPath -Name "EnableFeeds " -Value 0 -Type DWORD -Force
@@ -354,51 +353,51 @@ Function Disable-Feed {
     New-ItemProperty -path $RegistryPath -name "AllowNewsAndInterests" -value 0 -type DWORD -Force
 }
 
+<#
+.SYNOPSIS
+Install 7zip BECAUSE it is the best archival Programm
+#>
 Function Install-7zip {
-    <#
-    .SYNOPSIS
-    Install 7zip BECAUSE it is the best archival Programm
-    #>
     choco install 7zip
 }
 
-function Install-Sudo{
-    <#
-    .SYNOPSIS
-    Install Sudo BECAUSE it is useful to elevate stuff on the fly
-    #>
-
+<#
+.SYNOPSIS
+Install Sudo BECAUSE it is useful to elevate stuff on the fly
+#>
+Function Install-Sudo{
+    
     choco install gsudo
-
+    
     Write-Output "`nImport-Module 'gsudoModule'"| Add-Content $Profile
     gsudo config CacheMode Auto
 }
 
+<#
+.SYNOPSIS
+Install OpenShell BECAUSE we like Windows 7
+#>
 Function Install-OpenShell {
-    <#
-    .SYNOPSIS
-    Install OpenShell BECAUSE we like Windows 7
-    #>
     choco install open-shell
     New-Item "HKLM:\SOFTWARE\OpenShell\StartMenu\" -Force
     New-Item "HKLM:\SOFTWARE\OpenShell\StartMenu\Settings" -Force
     New-ItemProperty -Path "HKLM:\SOFTWARE\OpenShell\StartMenu\Settings" -Name SkinW7 -Value "Windows Aero"
 }
 
+<#
+.SYNOPSIS Disable Searchbox BECAUSE we can search by hitting WIN Key
+#>
 Function Disable-SearchBox {
-    <#
-    .SYNOPSIS Disable Searchbox BECAUSE we can search by hitting WIN Key
-    #>
     $RegPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     New-ItemProperty -Path $RegPath -Name "SearchboxTaskbarMode" -Value 0 -Type DWORD -Force
     Add-ActiveSetupComponent -DisplayName "Disable Searchbox" -Id "DisableSearchbox" -Script "New-ItemProperty -Path $RegPath -Name 'SearchboxTaskbarMode' -Value 0 -Type DWORD -Force"
 }
 
+<#
+.SYNOPSIS
+Disable Web Search BECAUSE it is distracting, we can just search in browser
+#>
 Function Disable-WebSearch {
-    <#
-    .SYNOPSIS
-    Disable Web Search BECAUSE it is distracting, we can just search in browser
-    #>
     DisableWebSearch
     $Regpath = "HKCU:\SOFTWARE\Policies\Microsoft\Windows"
     New-Item -Path $RegPath -name Explorer
@@ -406,21 +405,21 @@ Function Disable-WebSearch {
     Add-ActiveSetupComponent -id DisableWebSearch -DisplayName "Disable Web Search" -Script "New-Item -Path $RegPath -Name Explorer; New-ItemProperty -Path $Regpath\Explorer -PropertyType dword -Name 'DisableSearchBoxSuggestions' -Value 1"
 }
 
+<#
+.SYNOPSIS
+Disable Taskview BECAUSE it is distracting, we can just use ALT+TAB
+#>
 Function Disable-Taskview {
-    <#
-    .SYNOPSIS
-    Disable Taskview BECAUSE it is distracting, we can just use ALT+TAB
-    #>
     $RegPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     New-ItemProperty -Path $RegPath -Name "ShowTaskViewButton" -Value 0 -Type DWORD -Force
     Add-ActiveSetupComponent -DisplayName "Taskview Ausblenden" -Id "DisableTaskview" -Version 1 -Script 'New-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name "ShowTaskViewButton" -Value 0 -Type DWORD -Force'
 }
 
+<#
+.SYNOPSIS
+Set Default Printer BECAUSE it is convenient
+#>
 Function Set-DefaultPrinter {
-    <#
-    .SYNOPSIS
-    Set Default Printer BECAUSE it is convenient
-    #>
     [CmdletBinding()]
     param (
     # Printer Name
@@ -434,15 +433,15 @@ Function Set-DefaultPrinter {
     Invoke-CimMethod -InputObject $Printer -MethodName SetDefaultPrinter 
 }
 
+<#
+.SYNOPSIS
+Enable Shutdown on Powerbutton BECAUSE it is convenient
+#>
 Function Enable-ShutdownOnPowerbutton {
-    <#
-    .SYNOPSIS
-    Enable Shutdown on Powerbutton BECAUSE it is convenient
-    #>
     $RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Power\PowerSettings\7648EFA3-DD9C-4E3E-B566-50F929386280"
     New-ItemProperty -Path $RegPath -Name "ACSettingIndex" -Value 3 -Type DWORD -Force
     New-ItemProperty -Path $RegPath -Name "DCSettingIndex" -Value 3 -Type DWORD -Force
-    #todo: create disable function
+    #todo: create disable Function
 }
 
 Function Set-TaskbarAlignement {
@@ -458,45 +457,45 @@ Function Set-TaskbarAlignement {
 }
 
 
+<#
+.SYNOPSIS
+Move Taskbar to Left of Screen BECAUSE that's where it always has been.
+.DESCRIPTION
+Move Taskbar to Left of Screen BECAUSE that's where it always has been.
+This is also the Windows 10 default.
+.EXAMPLE
+Move-TaskbarLeft
+#>  
 Function Move-TaskbarLeft {
-    <#
-    .SYNOPSIS
-    Move Taskbar to Left of Screen BECAUSE that's where it always has been.
-    .DESCRIPTION
-    Move Taskbar to Left of Screen BECAUSE that's where it always has been.
-    This is also the Windows 10 default.
-    .EXAMPLE
-    Move-TaskbarLeft
-    #>  
     Set-TaskbarAlignement 0
 }
 
+<#
+.SYNOPSIS
+Move Taskbar to Center of Screen BECAUSE it looks better on huge Screens
+.DESCRIPTION
+Move Taskbar to Center of Screen BECAUSE it looks better on huge Screens.
+This is also the Windows 11 default.
+.EXAMPLE
+Move-TaskbarCenter
+#>
 Function Move-TaskbarCenter {
-    <#
-    .SYNOPSIS
-    Move Taskbar to Center of Screen BECAUSE it looks better on huge Screens
-    .DESCRIPTION
-    Move Taskbar to Center of Screen BECAUSE it looks better on huge Screens.
-    This is also the Windows 11 default.
-    .EXAMPLE
-    Move-TaskbarCenter
-    #>
     Set-TaskbarAlignement 1
 }
 
 
+<#
+.SYNOPSIS
+Remove all the default Printers BECAUSE they are cluttering the Printer Dialog
+.DESCRIPTION
+Remove all the Bloated Printers from Windows.
+Keeps the PDF one as an Exception.
+Make sure to run this Script at the end so it can also
+remove the Printers that were installed by other Programs.
+.EXAMPLE
+Remove-BloatPrinters
+#>
 Function Remove-BloatPrinters {
-    <#
-    .SYNOPSIS
-    Remove all the default Printers BECAUSE they are cluttering the Printer Dialog
-    .DESCRIPTION
-    Remove all the Bloated Printers from Windows.
-    Keeps the PDF one as an Exception.
-    Make sure to run this Script at the end so it can also
-    remove the Printers that were installed by other Programs.
-    .EXAMPLE
-    Remove-BloatPrinters
-    #>
     $Printers = get-printer
     foreach ($Printer in $Printers) {
         if ($Printer.Name -ne "Microsoft Print to PDF") {
@@ -505,11 +504,11 @@ Function Remove-BloatPrinters {
     }
 }
 
+<#
+.SYNOPSIS
+Set Chrome as Default Browser BECAUSE it is better than Edge
+#>
 Function Set-ChromeDefaultBrowser {
-    <#
-    .SYNOPSIS
-    Set Chrome as Default Browser BECAUSE it is better than Edge
-    #>
     try {
         Write-Host "Starting script execution..."
         $namespaceName = "root\cimv2\mdm\dmmap"
@@ -531,63 +530,63 @@ Function Set-ChromeDefaultBrowser {
     Write-Host "Script execution completed."
 }
 
+<#
+.SYNOPSIS
+Disable Lockscreen BECAUSE there is only one user without login
+.DESCRIPTION
+Disable Lockscreen BECAUSE there is only one user without login
+Only do this if you know what you are doing!
+#>
 Function Disable-Lockscreen {
-    <#
-    .SYNOPSIS
-    Disable Lockscreen BECAUSE there is only one user without login
-    .DESCRIPTION
-    Disable Lockscreen BECAUSE there is only one user without login
-    Only do this if you know what you are doing!
-    #>
     #Todo: what about DisableLockscreen?
     $Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization"
     New-Item -Path $Path
     New-ItemProperty -Path $Path -Name "NoLockScreen" -Type dword -value 1 -Force
 }
 
+<#
+.SYNOPSIS
+Install .NET Framework BECAUSE some programs need it
+#>
 Function Install-DotNet {
-    <#
-    .SYNOPSIS
-    Install .NET Framework BECAUSE some programs need it
-    #>
     Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3"
 }
 
+<#
+.SYNOPSIS
+Install Everything BECAUSE it is better than windows search
+#>
 Function Install-Everything {
-    <#
-    .SYNOPSIS
-    Install Everything BECAUSE it is better than windows search
-    #>
     choco install everything
     remove-item (Join-Path $env:Public "Desktop/Everything.lnk")
     #TODO remove tray icon
 }
 
-function Disable-TrayOverflow {
-    <#
-    .SYNOPSIS
-    Disable Tray Overflow BECAUSE it is clutter
-    #>
+<#
+.SYNOPSIS
+Disable Tray Overflow BECAUSE it is clutter
+#>
+Function Disable-TrayOverflow {
     New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
     $Path = "HKCR:\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify"
     New-ItemProperty -Path $Path -Name "SystemTrayChevronVisibility" -Type dword -value 0 -Force
 }
 
-function Enable-TrayOverflow {
-    <#
-    .SYNOPSIS
-    Enable Tray Overflow BECAUSE it is useful
-    #>
+<#
+.SYNOPSIS
+Enable Tray Overflow BECAUSE it is useful
+#>
+Function Enable-TrayOverflow {
     New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
     $Path = "HKCR:\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify"
     New-ItemProperty -Path $Path -Name "SystemTrayChevronVisibility" -Type dword -value 1 -Force
 }
 
-function Disable-Conexant {
-    <#
-    .SYNOPSIS
-    Disable Conexant BECAUSE it is useless and buggy
-    #>
+<#
+.SYNOPSIS
+Disable Conexant BECAUSE it is useless and buggy
+#>
+Function Disable-Conexant {
     Stop-Service CxAudMsg
     Set-Service CxAudMsg -StartupType Disabled
     Stop-Service CxMonSvc
@@ -596,45 +595,45 @@ function Disable-Conexant {
     Set-Service CxUtilSvc -StartupType Disabled
 }
 
-function Hide-ChatIcon {
-    <#
-    .SYNOPSIS
-    Hide Chat Icon BECAUSE it is distracting, we can just open/pin teams
-    #>
+<#
+.SYNOPSIS
+Hide Chat Icon BECAUSE it is distracting, we can just open/pin teams
+#>
+Function Hide-ChatIcon {
     $RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Chat"
     New-Item -Path $RegPath
     Set-ItemProperty -Path $regpath -Name ChatIcon -Value 3 -Type dword
 }
 
-function Show-ChatIcon {
-    <#
-    .SYNOPSIS
-    Show Chat Icon BECAUSE it is useful
-    #>
+<#
+.SYNOPSIS
+Show Chat Icon BECAUSE it is useful
+#>
+Function Show-ChatIcon {
     $RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Chat"
     Remove-Item $RegPath
 }
 
-function Install-Acrobat {
-    <#
-    .SYNOPSIS
-    Install Acrobat Reader BECAUSE it is better than Edge
-    #>
+<#
+.SYNOPSIS
+Install Acrobat Reader BECAUSE it is better than Edge
+#>
+Function Install-Acrobat {
     choco install adobereader -params '"/UpdateMode 0"'
     Remove-Item -Path (Join-Path "$env:public" "Desktop/Adobe Acrobat.lnk")
     #todo: disable tour
 }
 
-function Disable-KeyboardLayout() {
-    <#
-    .SYNOPSIS
-    Disable Keyboard Layout BECAUSE less clutter in Tray and No accidental switches
-    .PARAMETER
-    Layout
-    The Layout to disable
-    .EXAMPLE
-    Disable-KeyboardLayout -Layout "de-CH"
-    #>
+<#
+.SYNOPSIS
+Disable Keyboard Layout BECAUSE less clutter in Tray and No accidental switches
+.PARAMETER
+Layout
+The Layout to disable
+.EXAMPLE
+Disable-KeyboardLayout -Layout "de-CH"
+#>
+Function Disable-KeyboardLayout() {
     param(
     [parameter(mandatory = $True)]
     $Layout
@@ -645,11 +644,11 @@ function Disable-KeyboardLayout() {
     set-WinUSerLanguageList  $list -Force
 }
 
+<#
+.SYNOPSIS
+Clear Keyboard Layout BECAUSE less clutter in Tray and No accidental switches
+#>
 Function Clear-KeyboardLayout() {
-    <#
-    .SYNOPSIS
-    Clear Keyboard Layout BECAUSE less clutter in Tray and No accidental switches
-    #>
     $Layouts = Get-WinUserLanguageList
     #Remove all but first
     $Layouts | Select-Object -Skip 1 | ForEach-Object {
@@ -660,38 +659,38 @@ Function Clear-KeyboardLayout() {
     # maybe: not ideal
 }
 
-function Disable-Sleep() {
-    <#
-    .SYNOPSIS
-    Disable Sleep BECAUSE we want to see if it is running from afar
-    #>
+<#
+.SYNOPSIS
+Disable Sleep BECAUSE we want to see if it is running from afar
+#>
+Function Disable-Sleep() {
     powercfg /change standby-timeout-dc 0
     powercfg /change standby-timeout-ac 0
     powercfg /change monitor-timeout-dc 0
     powercfg /change monitor-timeout-ac 0
 }
 
-function Disable-Cortana {
-    <#
-    .SYNOPSIS Disable Cortana BECAUSE it doesn't work in Switzerland
-    #>
+<#
+.SYNOPSIS Disable Cortana BECAUSE it doesn't work in Switzerland
+#>
+Function Disable-Cortana {
     DisableCortana
     Add-ActiveSetupComponent -Id "DisableCortana" -DisplayName "Disable Cortana" -Script "DisableCortana"
 }
 
-function Show-FileExtenstions {
-    <#
-    .SYNOPSIS Show File Extensions BECAUSE it is more secure
-    #>
+<#
+.SYNOPSIS Show File Extensions BECAUSE it is more secure
+#>
+Function Show-FileExtenstions {
     ShowKnownExtensions
     Add-ActiveSetupComponent -Id "ShowFileExtensions" -Script "New-Itemproperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'HideFileExt' -Type DWord -Value 0"
 }
 
+<#
+.SYNOPSIS
+Clear all Notifications BECAUSE they are distracting
+#>
 Function Clear-Notifications {
-    <#
-    .SYNOPSIS
-    Clear all Notifications BECAUSE they are distracting
-    #>
     [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
     
     $notifications = Get-ChildItem -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings' | Select-Object -ExpandProperty Name
@@ -702,58 +701,58 @@ Function Clear-Notifications {
     }
 }
 
+<#
+.SYNOPSIS
+Install PDF24 BECAUSE we don't want users to upload documents to the internet
+#>
 Function Install-PDF24 {
-    <#
-    .SYNOPSIS
-    Install PDF24 BECAUSE we don't want users to upload documents to the internet
-    #>
     choco install PDF24 #TODO: options?
     Remove-Item -Path (Join-Path "$env:public" "Desktop/PDF24.lnk")
     reg import assets/pdf24.reg #maybe: port to powershell
 }
+<#
+.SYNOPSIS
+Remove all pinned items from the taskbar
+.DESCRIPTION
+Remove all pinned items from the taskbar because the location to start Programs from is the START-Menu.
+#>
 Function Clear-Taskbar {
-    <#
-    .SYNOPSIS
-    Remove all pinned items from the taskbar
-    .DESCRIPTION
-    Remove all pinned items from the taskbar because the location to start Programs from is the START-Menu.
-    #>
     $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
     Remove-ItemProperty -Path $RegPath -Name Favorites
     Add-ActiveSetupComponent -Id "ClearTaskbar" -Script "Remove-ItemProperty -Path $RegPath -Name Favorites"
 }
 
+<#
+.SYNOPSIS
+Sets the default terminal application.
+
+.DESCRIPTION
+The Set-DefaultTerminal Function is designed to alter the default terminal application for the
+current user on a Windows machine. It modifies the Windows Registry to set the terminal application
+to one of three possible choices: Windows Terminal, CMD, or back to the system default.
+This can be useful in scenarios where you need to programmatically switch the terminal to suit
+different workflows or user preferences.
+
+.PARAMETER Application
+A mandatory parameter specifying the terminal application to set as default.
+Accepts one of the following values: 'Terminal', 'CMD', or 'Default'.
+
+.EXAMPLE
+Set-DefaultTerminal -Application 'Terminal'
+
+This will set the Windows Terminal as the default terminal application for the current user.
+
+.EXAMPLE
+Set-DefaultTerminal -Application 'CMD'
+
+This will set the CMD as the default terminal application for the current user.
+
+.EXAMPLE
+Set-DefaultTerminal -Application 'Default'
+
+This will reset the terminal application to the system default.
+#>
 Function Set-DefaultTerminal {
-    <#
-    .SYNOPSIS
-    Sets the default terminal application.
-    
-    .DESCRIPTION
-    The Set-DefaultTerminal function is designed to alter the default terminal application for the
-    current user on a Windows machine. It modifies the Windows Registry to set the terminal application
-    to one of three possible choices: Windows Terminal, CMD, or back to the system default.
-    This can be useful in scenarios where you need to programmatically switch the terminal to suit
-    different workflows or user preferences.
-    
-    .PARAMETER Application
-    A mandatory parameter specifying the terminal application to set as default.
-    Accepts one of the following values: 'Terminal', 'CMD', or 'Default'.
-    
-    .EXAMPLE
-    Set-DefaultTerminal -Application 'Terminal'
-    
-    This will set the Windows Terminal as the default terminal application for the current user.
-    
-    .EXAMPLE
-    Set-DefaultTerminal -Application 'CMD'
-    
-    This will set the CMD as the default terminal application for the current user.
-    
-    .EXAMPLE
-    Set-DefaultTerminal -Application 'Default'
-    
-    This will reset the terminal application to the system default.
-    #>
     
     param(
     [parameter(mandatory = $True)]
@@ -783,27 +782,26 @@ Function Set-DefaultTerminal {
     Add-ActiveSetupComponent -Id "SetDefaultTerminal" -Script "New-ItemProperty -Path 'HKCU:\Console\%%Startup' -Name DelegationTerminal -Value $DelegationTerminal -Force"
 }
 
+<#
+.SYNOPSIS Show Known File Extensions BECAUSE it is more secure
+#>
 Function Show-KnownExtensions {
-    <#
-    .SYNOPSIS Show Known File Extensions BECAUSE it is more secure
-    #>
     ShowKnownExtensions
     Add-ActiveSetupComponent -Id "ShowKnownExtensions" -Script "ShowKnownExtensions"
 }
-
+<#
+.SYNOPSIS
+Install WinScan2PDF BECAUSE users know how to use it
+#>
 Function Install-WinScan2PDF {
-    <#
-    .SYNOPSIS
-    Install WinScan2PDF BECAUSE users know how to use it
-    #>
     choco install WinScan2PDF
     Remove-Item -Path (Join-Path "$env:public" "Desktop/WinScan2PDF.lnk")
 }
 
+<#
+.SYNOPSIS
+Disable Search Highlights BECAUSE it is distracting
+#>
 Function Disable-SearchHighlights{
-    <#
-    .SYNOPSIS
-    Disable Search Highlights BECAUSE it is distracting
-    #>
     Set-Dword -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "EnableDynamicContentInWSB" -Value 0
-   }
+}

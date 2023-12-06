@@ -29,10 +29,8 @@ Function Set-Dword{
         [int]
         $Value
     )
-
     New-ItemProperty -Path $Path -Name $Name -PropertyType DWORD -Value $Value -Force
 }
-
 
 function New-TemporaryDirectory {
     $parent = [System.IO.Path]::GetTempPath()
@@ -279,5 +277,25 @@ Function Approve-ScriptExecution{
     } else {
         Write-Host "ExecutionPolicy is $ExecutionPolicy, changing to RemoteSigned"
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+    }
+}
+
+Function Select-Command{
+    param(
+        [Parameter(Mandatory=$True,ValueFromPipeline=$True,ValueFromPipelineByPropertyName=$True)]
+        [ScriptBlock]
+        $ScriptBlock
+    )
+    # extract the command from the scriptblock
+    try{
+        $Command = $ScriptBlock.ToString().Split(" ")[0]
+    }catch{
+        Write-Error "Could not extract command from scriptblock"
+    }
+    # check if the command is available
+    if(Get-Command $Command -ErrorAction SilentlyContinue){
+        return $Command
+    }else{
+        Write-Error "Command $Command not found"
     }
 }

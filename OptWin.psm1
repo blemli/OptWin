@@ -708,7 +708,7 @@ Install PDF24 BECAUSE we don't want users to upload documents to the internet
 Function Install-PDF24 {
     choco install PDF24 #TODO: options?
     Remove-Item -Path (Join-Path "$env:public" "Desktop/PDF24.lnk")
-    reg import assets/pdf24.reg #maybe: port to powershell
+    reg import (Join-Path $PSScriptRoot assets/pdf24.reg) #maybe: port to powershell
 }
 <#
 .SYNOPSIS
@@ -804,4 +804,37 @@ Disable Search Highlights BECAUSE it is distracting
 #>
 Function Disable-SearchHighlights{
     Set-Dword -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "EnableDynamicContentInWSB" -Value 0
+}
+
+<#
+.SYNOPSIS
+Hide 3D Objects from Explorer BECAUSE it is clutter
+#>
+Function Hide-3DObjects {
+    Hide3DObjectsFromExplorer
+}
+
+
+<#
+.SYNOPSIS
+DisableAdminShares BECAUSE they are a security risk
+#>
+Function Disable-AdminShares {
+    DisableAdminShares
+}
+
+<#
+.SYNOPSIS
+Disable Widgets BECAUSE they are distracting
+#>
+Function Disable-Widgets{
+    DisableWidgets
+}
+
+<#
+.SYNOPSIS
+Uninstall OneDrive BECAUSE we can always reinstall it
+#>
+Uninstall-OneDrive{
+    UninstallOneDrive
 }

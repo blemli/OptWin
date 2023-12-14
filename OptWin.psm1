@@ -4,6 +4,78 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;
 . (join-path $PSScriptRoot "ActiveSetup.ps1")
 . (join-Path $PSScriptRoot "helpers.ps1")
 
+$PresetPath=(Join-Path $PSScriptRoot "presets")
+
+Function Get-OptWinPreset(){
+    $Presets=@()
+    Get-ChildItem -path $PresetPath *.ps1 | ForEach-Object {
+        . $_
+        $Preset=[PSCustomObject]@{
+            "Name" = $_.basename
+            "Description" = $Description 
+            "TaskCount" = $Tasks.Count
+            "InputCount" = $Inputs.Count
+            "Tasks" = $Tasks
+            "Inputs" = $Inputs.Keys
+        }
+        $Presets+=$Preset
+    }
+    #output as table
+    #todo: DefaultDisplayPropertySet$
+    $Presets
+}
+Function Optimize-Windows() {
+    [CmdletBinding()]
+    param(
+    [Parameter(Mandatory = $True)]
+    [ValidateScript(
+    {  $_ -in (Get-ChildItem -path $PresetPath *.ps1).basename }
+    #, ErrorMessage = 'Please specify a valid preset, i.e. "Minimalist"' #only works in PS 7+
+    )]
+    [ArgumentCompleter(
+    {
+        param($cmd, $param, $wordToComplete)
+        [array] $validValues = (Get-ChildItem -path $PresetPath *.ps1).basename
+        $validValues -like "$wordToComplete*"
+    }
+    )]
+    [String]$Preset)
+
+    if((Test-Elevation) -eq $false){
+        Write-Error "This script needs to be run as Administrator"
+        return
+    }
+    
+    $SelectedPreset = (Join-Path $PresetPath "$Preset.ps1") #get the list of tasks and inputs
+    Write-Host "SelectedPreset:" $SelectedPreset
+    Write-Host "Preset Path:" $PresetPath
+    Write-Host "Gugus"
+    . $SelectedPreset
+    Write-Host "Do you want to execute the following ${tasks.count} Tasks?"
+    $Tasks | ForEach-Object {
+        $Description=(Select-Command $_|Get-Synopsis)
+        Write-Host "☐ $Description"
+    }
+    Wait-Keypress
+    Write-Information "Reading Inputs"
+    $Inputs.GetEnumerator() | ForEach-Object {
+        #todo: handle secret with Read-Password
+        # if not interactive and has a default
+        if ($PSCmdlet.ParameterSetName -eq "__AllParameterSets" -and $_.Value.Default) {
+            $Value=$_.Value.Default
+        }
+        $_.Default = Read-Host -Prompt $Input.Title
+        Write-Host $Input.Default
+        New-Variable -Name $_.Key -Value $Value -Force -Scope Global
+    }
+    Write-Information "Processing $Tasks.count Tasks"
+        $Tasks | ForEach-Object {
+        $Description=(Select-Command $_|Get-Synopsis)
+        Write-Progress -Activity "Optimize Windows" -Status $Description -PercentComplete ($Tasks.IndexOf($_)/$Tasks.Count*100)
+        Write-Host $Description
+        Invoke-Command $_ | out-null
+    }
+}
 
 <#
 .SYNOPSIS

@@ -294,7 +294,7 @@ Function Remove-TaskbarPin {
         }
         # check if the command is available
         if(Get-Command $Command -ErrorAction SilentlyContinue){
-            return $Command
+            return (get-command $Command)
         }else{
             Write-Error "Command $Command not found"
         }
@@ -396,4 +396,27 @@ Function Get-Password{
     $Field
     )
     op item get "$Name" --fields "$Field"
+}
+
+
+
+Function Get-Synopsis {
+    param(
+        [Parameter(Mandatory=$False,ValueFromPipeline=$True,Position=0)]
+        [System.Management.Automation.CommandInfo]
+        $Command
+    )
+    $RawSynopsis=Get-Help -Name $Command | Select-Object -ExpandProperty Synopsis
+    $Synopsis=$RawSynopsis.split([Environment]::NewLine) | Select-Object -first 1
+    return $Synopsis
+}
+
+Function ic(){
+    param(
+    [Parameter(Mandatory=$true)]
+    [String]
+    $VariableName
+    )
+    $debugValue = Get-Variable $VariableName
+    write-host "`$$($debugValue.Name): $($debugValue.Value)"
 }

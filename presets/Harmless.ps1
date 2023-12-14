@@ -5,5 +5,5 @@ $Tasks=@(
 
 $Inputs=[ordered]@{}
 
-Write-Verbose $Tasks
-Write-Verbose $Inputs
+Write-Verbose $Tasks.ToString()
+Write-Verbose $Inputs.ToString()

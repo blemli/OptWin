@@ -406,6 +406,9 @@ Function Get-Synopsis {
         [System.Management.Automation.CommandInfo]
         $Command
     )
+    if($Command -eq $null){
+        return ""
+    }
     $RawSynopsis=Get-Help -Name $Command | Select-Object -ExpandProperty Synopsis
     $Synopsis=$RawSynopsis.split([Environment]::NewLine) | Select-Object -first 1
     return $Synopsis

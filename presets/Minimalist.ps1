@@ -20,7 +20,6 @@ $Tasks=@(
     {Install-7zip},
     {Install-PDF24},
     {Install-Everything},
-    {choco install powertoys}
     {Clear-Taskbar},
     {Stop-Process -Name Explorer},
     {Clear-RecycleBin -Force},
@@ -29,5 +28,5 @@ $Tasks=@(
 
 $Inputs=[ordered]@{}
 
-Write-Verbose $Tasks
-Write-Verbose $Inputs
+Write-Verbose $Tasks.ToString()
+Write-Verbose $Inputs.ToString()

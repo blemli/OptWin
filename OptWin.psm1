@@ -49,7 +49,6 @@ Function Optimize-Windows() {
     $SelectedPreset = (Join-Path $PresetPath "$Preset.ps1") #get the list of tasks and inputs
     Write-Host "SelectedPreset:" $SelectedPreset
     Write-Host "Preset Path:" $PresetPath
-    Write-Host "Gugus"
     . $SelectedPreset
     Write-Host "Do you want to execute the following ${tasks.count} Tasks?"
     $Tasks | ForEach-Object {
@@ -253,6 +252,7 @@ Function Install-DeepFreeze {
 }
 
 <#
+.SYNOPSIS
 Remove Edge BECAUSE it is to distracting and always changes
 #>
 Function Disable-Edge {
@@ -379,7 +379,8 @@ Function New-UnsecureUser() {
 }
 
 <#
-.SYNOPSIS Enble Autologin BECAUSE it is more convenient
+.SYNOPSIS
+Enble Autologin BECAUSE it is more convenient
 #>   
 Function Enable-Autologin { 
     param(
@@ -406,7 +407,8 @@ Function Set-DefaultPDFReader {
 }
 
 <#
-.SYNOPSIS Disable Privacy Experience BECAUSE it asks to many questions on first login
+.SYNOPSIS
+Disable Privacy Experience BECAUSE it asks to many questions on first login
 #>
 Function Disable-PrivacyExperience {
     $RegistryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE"
@@ -415,7 +417,8 @@ Function Disable-PrivacyExperience {
 }
 
 <#
-.SYNOPSIS Disable Feed BECAUSE it is distracting
+.SYNOPSIS
+Disable Feed BECAUSE it is distracting
 #>
 Function Disable-Feed {
     $RegistryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
@@ -457,7 +460,8 @@ Function Install-OpenShell {
 }
 
 <#
-.SYNOPSIS Disable Searchbox BECAUSE we can search by hitting WIN Key
+.SYNOPSIS
+Disable Searchbox BECAUSE we can search by hitting WIN Key
 #>
 Function Disable-SearchBox {
     $RegPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
@@ -743,7 +747,8 @@ Function Disable-Sleep() {
 }
 
 <#
-.SYNOPSIS Disable Cortana BECAUSE it doesn't work in Switzerland
+.SYNOPSIS
+Disable Cortana BECAUSE it doesn't work in Switzerland
 #>
 Function Disable-Cortana {
     DisableCortana
@@ -751,7 +756,8 @@ Function Disable-Cortana {
 }
 
 <#
-.SYNOPSIS Show File Extensions BECAUSE it is more secure
+.SYNOPSIS
+Show File Extensions BECAUSE it is more secure
 #>
 Function Show-FileExtenstions {
     ShowKnownExtensions
@@ -780,7 +786,7 @@ Install PDF24 BECAUSE we don't want users to upload documents to the internet
 Function Install-PDF24 {
     choco install PDF24 #TODO: options?
     Remove-Item -Path (Join-Path "$env:public" "Desktop/PDF24.lnk")
-    reg import (Join-Path $PSScriptRoot assets/pdf24.reg) #maybe: port to powershell
+    reg import assets/pdf24.reg #maybe: port to powershell
 }
 <#
 .SYNOPSIS
@@ -855,7 +861,8 @@ Function Set-DefaultTerminal {
 }
 
 <#
-.SYNOPSIS Show Known File Extensions BECAUSE it is more secure
+.SYNOPSIS
+Show Known File Extensions BECAUSE it is more secure
 #>
 Function Show-KnownExtensions {
     ShowKnownExtensions
@@ -880,16 +887,15 @@ Function Disable-SearchHighlights{
 
 <#
 .SYNOPSIS
-Hide 3D Objects from Explorer BECAUSE it is clutter
+Uninstall OneDrive BECAUSE we can always reinstall it
 #>
-Function Hide-3DObjects {
-    Hide3DObjectsFromExplorer
+Function Uninstall-OneDrive {
+    UninstallOneDrive
 }
-
 
 <#
 .SYNOPSIS
-DisableAdminShares BECAUSE they are a security risk
+Disable AdminShares BECAUSE they are a security risk
 #>
 Function Disable-AdminShares {
     DisableAdminShares
@@ -897,16 +903,17 @@ Function Disable-AdminShares {
 
 <#
 .SYNOPSIS
-Disable Widgets BECAUSE they are distracting
+Hide 3DObjects in Explorer BECAUSE no one uses them
 #>
-Function Disable-Widgets{
-    DisableWidgets
+Function Hide-3DObjects{
+    Hide3DObjectsFromExplorer
+    Hide-3DObjectsFromThisPC
 }
 
 <#
 .SYNOPSIS
-Uninstall OneDrive BECAUSE we can always reinstall it
+Disable Widgets BECAUSE they are distracting
 #>
-Uninstall-OneDrive{
-    UninstallOneDrive
+Function Disable-Widgets {
+    DisableWidgets
 }

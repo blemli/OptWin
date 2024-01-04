@@ -879,9 +879,10 @@ Function Install-WinScan2PDF {
 
 <#
 .SYNOPSIS
-Disable Search Highlights BECAUSE it is distracting
+Disable Search Highlights (little pictures in search) BECAUSE it is distracting
 #>
 Function Disable-SearchHighlights{
+    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\" -Name "Windows Search"
     Set-Dword -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "EnableDynamicContentInWSB" -Value 0
 }
 

@@ -918,3 +918,21 @@ Disable Widgets BECAUSE they are distracting
 Function Disable-Widgets {
     DisableWidgets
 }
+
+<#
+.SYNOPSIS
+Enable Incoming Ping BECAUSE it is useful for troubleshooting
+#>
+Function Enable-Ping {
+    netsh advfirewall firewall add rule name="Allow ICMPv4" protocol=icmpv4:8,any dir=in action=allow
+    netsh advfirewall firewall add rule name="Allow ICMPv6" protocol=icmpv6:8,any dir=in action=allow
+}
+
+<#
+.SYNOPSIS
+Disable Incoming Ping BECAUSE it can be a security risk
+#>
+Function Disable-Ping {
+    netsh advfirewall firewall delete rule name="Allow ICMPv4"
+    netsh advfirewall firewall delete rule name="Allow ICMPv6"
+}

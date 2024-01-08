@@ -573,7 +573,7 @@ Remove-BloatPrinters
 #>
 Function Remove-BloatPrinters {
     $Printers = get-printer
-    foreach ($Printer in $Printers) {
+    foreach ($Printer in $Printers) {  # Todo: dangerous??
         if ($Printer.Name -ne "Microsoft Print to PDF") {
             Remove-Printer $Printer
         }
@@ -935,4 +935,14 @@ Disable Incoming Ping BECAUSE it can be a security risk
 Function Disable-Ping {
     netsh advfirewall firewall delete rule name="Allow ICMPv4"
     netsh advfirewall firewall delete rule name="Allow ICMPv6"
+}
+
+<#
+.SYNOPSIS
+Hide App Suggestions in Start Menu BECAUSE they are distracting
+#>
+Function Hide-AppSuggestions(){
+    $Path="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+    Set-DWord -Path $Path -Name "SystemPaneSuggestionsEnabled" -Value 0
+    New-ActiveSetupComponent -Id "HideAppSuggestions" -Script "Set-DWord -Path $Path -Name 'SystemPaneSuggestionsEnabled' -Value 0"
 }

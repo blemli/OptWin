@@ -12,7 +12,7 @@
 RootModule = 'OptWin.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.26'
+ModuleVersion = '1.0.33'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()

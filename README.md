@@ -19,7 +19,31 @@ or even quicker:
 
 There are different Presets and you can create your own. The *Minimalist* Preset does the following:
 
-//todo: add
+	•	Move taskbar to the left
+	•	Show known file extensions
+	•	Hide 3D Objects folder
+	•	Uninstall bloatware
+	•	Remove bloatware printers
+	•	Disable admin shares
+	•	Clear keyboard layout
+	•	Disable Cortana
+	•	Disable Edge
+	•	Disable search box
+	•	Disable task view
+	•	Disable search highlights
+	•	Disable widgets
+	•	Disable news feed
+	•	Hide chat icon
+	•	Hide app suggestions
+	•	Uninstall OneDrive
+	•	Enable ping
+	•	Update help files
+	•	Install VLC (to check)
+	•	Install 7-Zip
+	•	Install PDF24
+	•	Install Everything search
+	•	Install Firefox
+	•	Clear taskbar
 
 
 

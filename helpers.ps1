@@ -395,7 +395,7 @@ Function Get-Password{
     [String]
     $Field
     )
-    op item get "$Name" --fields "$Field"
+    op item get "$Name" --fields "$Field" --reveal
 }
 
 

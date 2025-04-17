@@ -1,6 +1,7 @@
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact='High')]
 param(
 )
+#todo: make crossplatform
 . .\helpers
 $ErrorActionPreference="Stop"
 Write-Host "Getting nuget api key"

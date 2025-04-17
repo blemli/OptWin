@@ -1,8 +1,8 @@
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact='High')]
 param(
 )
-#todo: make crossplatform
-. .\helpers
+. .\helpers.ps1
+. ./helpers.ps1
 $ErrorActionPreference="Stop"
 Write-Host "Getting nuget api key"
 $Key=Get-Password -Name "Powershell Gallery OptWin" -Field "credential"

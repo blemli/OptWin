@@ -72,6 +72,14 @@ make sure those paths are correct.
 
 > HINT: If you make changes to the *WinInjection/X/VentoyAutoRun.bat* you have to repackage the *inject_optwin.7z* by running `.\WinInjection\pack.bat`
 
+
+
+> [!TIP]
+>
+> There is also an autounattend.xml in [unattended/autounattend.xml](./unattended/autounattend.xml) 
+
+
+
 ## Contribute
 
 Contributions, Pull Requests or Issues,  are <u>very welcome</u> :heart:. If you use VSCode, you should install the recommended Extensions.
